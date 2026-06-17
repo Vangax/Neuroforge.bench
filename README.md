@@ -20,17 +20,18 @@ mock). See [`docs/ROADMAP.md`](docs/ROADMAP.md) for the depth-hardening plan per
 
 | # | Module | Status | Notes |
 |---|--------|--------|-------|
-| 01 | Universal Loader / BIDS Repository | ✅ live | EDF/BDF/GDF/BrainVision/EEGLAB/FIFF/EGI via MNE; synthetic generator; BIDS subject/session tree; channel & event sidecars; in-memory index |
-| 02 | Interactive Visualization | ✅ live | Multichannel viewer, Welch/multitaper PSD, 2D inferno topomap (real interpolation), 3D WebGL head, band-power matrix, real-time scroll |
-| 03 | Preprocessing Pipeline | ✅ live | Visual pipeline builder (re-ref · filter · notch · resample · bad-channel detect · interpolate · ICA+EOG), before/after PSD QC, derivatives |
-| 04 | ERP / ERF Analyzer | ✅ live | Event epoching, condition averages, GFP, peak picking, difference wave, **cluster-based permutation test**, difference topography |
-| 05 | Signal Analyzer / Features | ✅ live | Hjorth, perm-entropy, Higuchi FD, DFA, spectral edge/median/peak; PLV/PLI/wPLI/coherence + connectogram + graph metrics; **aperiodic/periodic 1/f (specparam-style)**; **EEG microstates** (modified k-means — maps, coverage, duration, transitions) |
-| 06 | Cross-Session Mapper | ✅ live | Cohort dashboard, datasets×channels band-power map, session-similarity matrix + reliability |
-| 07 | Benchmarking Suite | ✅ live | Pipeline shootout on α-SNR + runtime, channel-correlation QC, environment capture + repro hash |
-| 08 | BCI Workbench | ✅ live | **CSP / Riemannian** + LDA/SVM/RF, 5-fold CV, accuracy/κ/AUC/ITR, confusion, CSP topographies, sim real-time control |
-| 09 | Data Editor / Annotation | ✅ live | Drop/rename channels, bipolar virtual channels, crop, annotations — non-destructive derivatives + provenance/version history |
-| 10 | Reporting / Export | ✅ live | matplotlib HTML report (embedded PSD + topo), export FIF/CSV/NumPy/HDF5/EDF, reproducibility/env panel |
-| 11 | Code Lab / Scripting | ✅ live | Run custom Python in an **isolated subprocess** (timeout, captured stdout + figures), save/reuse scripts; **run across many datasets (each / group)**, `nf.*` engine helpers, user/system error split; auth-gated |
+| 01 | Universal Loader / BIDS Repository |  live | EDF/BDF/GDF/BrainVision/EEGLAB/FIFF/EGI via MNE; synthetic generator; BIDS subject/session tree; channel & event sidecars; in-memory index |
+| 02 | Interactive Visualization |  live | Multichannel viewer, Welch/multitaper PSD, 2D inferno topomap (real interpolation), 3D WebGL head, band-power matrix, real-time scroll |
+| 03 | Preprocessing Pipeline |  live | Visual pipeline builder (re-ref · filter · notch · resample · bad-channel detect · interpolate · ICA+EOG), before/after PSD QC, derivatives |
+| 04 | ERP / ERF Analyzer | live | Event epoching, condition averages, GFP, peak picking, difference wave, **cluster-based permutation test**, difference topography |
+| 05 | Signal Analyzer / Features | live | Hjorth, perm-entropy, Higuchi FD, DFA, spectral edge/median/peak; PLV/PLI/wPLI/coherence + connectogram + graph metrics; **aperiodic/periodic 1/f (specparam-style)**; **EEG microstates** (modified k-means — maps, coverage, duration, transitions) |
+| 06 | Cross-Session Mapper |  live | Cohort dashboard, datasets×channels band-power map, session-similarity matrix + reliability |
+| 07 | Benchmarking Suite |  live | Pipeline shootout on α-SNR + runtime, channel-correlation QC, environment capture + repro hash |
+| 08 | BCI Workbench |  live | **CSP / Riemannian** + LDA/SVM/RF, 5-fold CV, accuracy/κ/AUC/ITR, confusion, CSP topographies, sim real-time control |
+| 09 | Data Editor / Annotation |  live | Drop/rename channels, bipolar virtual channels, crop, annotations — non-destructive derivatives + provenance/version history |
+| 10 | Reporting / Export |  live | matplotlib HTML report (embedded PSD + topo), export FIF/CSV/NumPy/HDF5/EDF, reproducibility/env panel |
+| 11 | Code Lab / Scripting | 
+ live | Run custom Python in an **isolated subprocess** (timeout, captured stdout + figures), save/reuse scripts; **run across many datasets (each / group)**, `nf.*` engine helpers, user/system error split; auth-gated |
 
 Every value on screen is a **real computation** — the seeded datasets are physiologically
 plausible synthetic EEG (posterior alpha, frontal eye-blinks, mains noise, oddball events)
@@ -205,7 +206,7 @@ a **crimson shard-burst** over black and a **golden coil**. Concretely:
 - film grain + scanlines + vignette for depth
 
 All theming lives in `frontend/src/styles/tokens.css` (a single source of truth).
-
+(design made with complete help of set of ai tools
 ---
 
 ## Production readiness
