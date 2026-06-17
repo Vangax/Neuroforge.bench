@@ -1,0 +1,168 @@
+/* ===========================================================================
+   NeuroForge — "DESKTOP IMPERIUM" grade
+   Blend of two ZX03 / Jens Karlsson references:
+     · crimson shard-burst (magenta→cyan-white core over black)
+     · golden coil (warm bronze/gold gloss, beveled chrome chassis)
+   Principles: cinematic depth, atmospheric color, brushed-metal chrome,
+   tiny engineered annotations, generous darkness, one hot focal point.
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap");
+
+:root {
+  /* --- base (warm near-black) ------------------------------------------- */
+  --bg-0: #050306;
+  --bg-1: #0a0609;
+  --bg-2: #0f0a0d;
+
+  /* --- crimson side (image 1) ------------------------------------------- */
+  --crimson: #ff2f5e;
+  --crimson-hi: #ff6f93;
+  --crimson-deep: #b3163a;
+  --magenta: #ff3d9a;
+
+  /* --- gold side (image 2) ---------------------------------------------- */
+  --gold: #ffb22e;
+  --gold-hi: #ffd884;
+  --gold-deep: #c8821f;
+  --bronze: #7c5526;
+
+  /* --- hot core + ice highlight ---------------------------------------- */
+  --hot: #fff0e2;
+  --ice: #bfe6ff;
+
+  /* --- lines / chrome --------------------------------------------------- */
+  --line: rgba(255, 178, 46, 0.14);
+  --line-crim: rgba(255, 47, 94, 0.22);
+  --bevel-hi: rgba(255, 226, 190, 0.22);
+  --bevel-lo: rgba(0, 0, 0, 0.55);
+
+  /* --- panel surfaces (dark glass) ------------------------------------- */
+  --panel: linear-gradient(155deg, rgba(24, 16, 18, 0.82), rgba(10, 7, 9, 0.74));
+  --panel-solid: #120c0f;
+
+  /* --- text ------------------------------------------------------------- */
+  --txt: #c4b3ab;
+  --txt-dim: #7d6c66;
+  --txt-bright: #f6e8df;
+
+  /* --- glows ------------------------------------------------------------ */
+  --glow-gold: 0 0 7px rgba(255, 178, 46, 0.5), 0 0 22px rgba(255, 138, 30, 0.18);
+  --glow-crim: 0 0 8px rgba(255, 47, 94, 0.55), 0 0 24px rgba(255, 47, 94, 0.2);
+
+  /* metallic title-bar fill (ZX03 bevel) */
+  --metal: linear-gradient(180deg, rgba(255, 232, 200, 0.16), rgba(120, 90, 60, 0.08) 42%, rgba(0, 0, 0, 0.34));
+  --metal-gold: linear-gradient(180deg, rgba(255, 216, 132, 0.30), rgba(160, 110, 40, 0.12) 45%, rgba(0, 0, 0, 0.42));
+
+  --font-mono: "Share Tech Mono", "Cascadia Code", "Consolas", ui-monospace, monospace;
+  --font-display: "Rajdhani", "Share Tech Mono", system-ui, sans-serif;
+
+  --rail-w: 66px;
+  --topbar-h: 50px;
+  --statusbar-h: 26px;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+
+body {
+  color: var(--txt);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  overflow: hidden;
+  background: #000;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- atmospheric backdrop: two light sources over deep black ---------- */
+#root {
+  position: relative;
+  isolation: isolate;
+}
+#root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(1100px 760px at 16% 8%, rgba(255, 47, 94, 0.20), rgba(150, 20, 60, 0.05) 38%, transparent 64%),
+    radial-gradient(1000px 720px at 90% 96%, rgba(255, 178, 46, 0.16), rgba(120, 80, 30, 0.05) 40%, transparent 66%),
+    radial-gradient(700px 700px at 62% 44%, rgba(255, 110, 60, 0.05), transparent 60%),
+    linear-gradient(160deg, #0b0608, #050306 60%, #070406);
+}
+/* faint warm blueprint grid + hot vignette */
+#root::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 178, 46, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 178, 46, 0.05) 1px, transparent 1px);
+  background-size: 52px 52px;
+  -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 0%, transparent 76%);
+  mask-image: radial-gradient(circle at 50% 42%, #000 0%, transparent 76%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* ---- film grain + scanlines ------------------------------------------- */
+.nf-scanlines {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>"),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,0.16) 3px, rgba(0,0,0,0) 4px);
+  background-size: 160px 160px, 100% 4px;
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+}
+.nf-vignette {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9997;
+  box-shadow: inset 0 0 240px 40px rgba(0, 0, 0, 0.92);
+}
+
+/* scrollbars */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--crimson-deep), var(--gold-deep)); }
+::selection { background: rgba(255, 47, 94, 0.4); color: #fff; }
+
+/* utility */
+.mono { font-family: var(--font-mono); }
+.dim { color: var(--txt-dim); }
+.gold { color: var(--gold-hi); }
+.crim { color: var(--crimson-hi); }
+.up { text-transform: uppercase; letter-spacing: 0.18em; }
+.tiny { font-size: 10px; }
+.disp { font-family: var(--font-display); }
+
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.12; } }
+@keyframes flicker {
+  0%, 100% { opacity: 1; } 92% { opacity: 1; } 93% { opacity: 0.35; }
+  94% { opacity: 1; } 97% { opacity: 0.6; } 98% { opacity: 1; }
+}
+@keyframes sweep { from { transform: translateX(-120%); } to { transform: translateX(320%); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* ---- compatibility shim: remap the old amber/cyan tokens onto the new
+   crimson+gold grade so every component is regraded in one place. --------- */
+:root {
+  --amber: var(--gold);
+  --amber-hi: var(--gold-hi);
+  --amber-dim: var(--gold-deep);
+  --cyan: var(--crimson);
+  --cyan-hi: var(--crimson-hi);
+  --cyan-dim: var(--crimson-deep);
+  --glow-amber: var(--glow-gold);
+  --glow-cyan: var(--glow-crim);
+  --line-strong: var(--line-crim);
+  --green: var(--gold-hi);
+  --red: var(--crimson);
+  --steel: var(--txt-dim);
+}
+.amber { color: var(--gold-hi); }
+.cyan { color: var(--crimson-hi); }
+.green { color: var(--gold-hi); }
+.status-cell.amber .v { color: var(--crimson-hi); }

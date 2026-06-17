@@ -1,0 +1,38 @@
+# data + index (runtime state)
+backend/data/
+*.db
+
+# raw recordings / data files (don't commit datasets)
+*.edf
+*.bdf
+*.gdf
+*.vhdr
+*.vmrk
+*.eeg
+*.set
+*.fdt
+*.cnt
+*.mff
+*.nwb
+*.fif
+*.npy
+*.h5
+*.hdf5
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# node
+node_modules/
+dist/
+*.local
+
+# os/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

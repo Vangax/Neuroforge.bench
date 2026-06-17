@@ -1,0 +1,1 @@
+this A_01_SE001_CB_Test08.edf is a data file from bigp3bci dataset for testing neuroforge , you can add more files of different types here and test it on , if it dosent work , contact me from my contacts at - vangax.github.io

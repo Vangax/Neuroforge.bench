@@ -1,0 +1,26 @@
+# NeuroForge backend — runtime
+fastapi>=0.114
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+pydantic>=2.9
+
+# scientific / neuro core
+numpy>=1.26
+scipy>=1.13
+pandas>=2.2
+mne>=1.7
+
+# analysis / modules
+scikit-learn>=1.4      # M8 decoding (CSP + LDA/SVM/RF)
+pyriemann>=0.6         # M8 Riemannian decoding
+matplotlib>=3.8        # M10 report figures
+h5py>=3.10             # M10 HDF5 export
+
+# --- optional (enable as modules deepen) -----------------------------------
+# mne-bids>=0.15        # BIDS read/write + validation
+# mne-icalabel>=0.7     # ICA component classification (vs the EOG-proxy heuristic)
+# autoreject>=0.4       # epoch rejection/repair
+# pyedflib>=0.1.36      # extra EDF/BDF coverage
+# pylsl>=1.16           # real-time LSL acquisition
+# celery>=5.3 + redis   # distributed job queue (replaces the in-process one)
+# sqlalchemy>=2.0 + alembic   # Postgres + migrations (replaces raw SQLite)

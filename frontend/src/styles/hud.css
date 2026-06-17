@@ -1,0 +1,231 @@
+/* ===========================================================================
+   HUD components — brushed-metal chrome over cinematic backdrop
+   ========================================================================== */
+
+.app {
+  position: relative; z-index: 1; height: 100vh;
+  display: grid; grid-template-rows: var(--topbar-h) 1fr var(--statusbar-h);
+}
+.app-body { display: grid; grid-template-columns: var(--rail-w) 1fr; min-height: 0; }
+
+/* --- top bar (beveled metal chassis) ------------------------------------ */
+.topbar {
+  display: flex; align-items: center; gap: 18px; padding: 0 16px;
+  background: var(--metal);
+  border-bottom: 1px solid var(--bevel-lo);
+  box-shadow: inset 0 1px 0 var(--bevel-hi), 0 6px 22px -8px rgba(0, 0, 0, 0.8);
+  position: relative; z-index: 5;
+}
+.brand { display: flex; align-items: baseline; gap: 10px; user-select: none; }
+.brand .mark {
+  font-family: var(--font-display); font-weight: 700; font-size: 19px;
+  letter-spacing: 0.42em; text-transform: uppercase;
+  background: linear-gradient(180deg, var(--hot), var(--gold) 55%, var(--gold-deep));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 178, 46, 0.35));
+}
+.brand .mark .b { color: var(--crimson); -webkit-text-fill-color: var(--crimson); filter: drop-shadow(0 0 8px rgba(255,47,94,0.6)); }
+.brand sup { color: var(--crimson-hi); font-size: 9px; -webkit-text-fill-color: var(--crimson-hi); }
+.brand .sub { font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.34em; color: var(--txt-dim); text-transform: uppercase; }
+
+.tabs { display: flex; gap: 1px; }
+.tab {
+  padding: 6px 13px; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--txt-dim); background: transparent; border: none; cursor: pointer;
+  position: relative; transition: color 0.15s;
+}
+.tab:hover { color: var(--gold-hi); }
+.tab.active { color: var(--crimson-hi); text-shadow: var(--glow-crim); }
+.tab.active::after {
+  content: ""; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px;
+  background: var(--crimson); box-shadow: var(--glow-crim);
+}
+.tab .idx { color: var(--gold-deep); font-size: 9px; margin-right: 5px; }
+
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.led { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.13em; color: var(--txt-dim); }
+.led .dot { width: 7px; height: 7px; border-radius: 50%; }
+.dot.on { background: var(--gold); box-shadow: 0 0 9px var(--gold); }
+.dot.off { background: var(--crimson); box-shadow: var(--glow-crim); animation: blink 1.4s infinite; }
+.dot.rec { background: var(--crimson); box-shadow: var(--glow-crim); animation: blink 1s infinite; }
+.clock { font-family: var(--font-mono); color: var(--gold-hi); text-shadow: var(--glow-gold); font-size: 13px; letter-spacing: 0.1em; }
+
+/* --- left rail ---------------------------------------------------------- */
+.rail {
+  display: flex; flex-direction: column;
+  background: linear-gradient(90deg, rgba(20, 13, 10, 0.9), rgba(8, 5, 7, 0.5));
+  border-right: 1px solid var(--bevel-lo);
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.03);
+  padding-top: 6px; position: relative; z-index: 4;
+}
+.rail-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 11px 4px; cursor: pointer; color: var(--txt-dim);
+  border-left: 2px solid transparent; background: transparent; transition: all 0.15s;
+}
+.rail-btn:hover { color: var(--gold-hi); background: rgba(255, 178, 46, 0.05); }
+.rail-btn.active {
+  color: var(--crimson-hi); border-left-color: var(--crimson);
+  background: linear-gradient(90deg, rgba(255, 47, 94, 0.16), transparent);
+}
+.rail-btn .gly { font-size: 17px; line-height: 1; }
+.rail-btn .lbl { font-size: 7.5px; letter-spacing: 0.08em; text-transform: uppercase; }
+.rail-spacer { flex: 1; }
+.rail-meta { padding: 8px 4px; text-align: center; font-size: 8px; color: var(--gold-deep); border-top: 1px solid var(--line); letter-spacing: 0.1em; }
+
+/* --- content ------------------------------------------------------------ */
+.content { position: relative; min-height: 0; overflow: auto; padding: 22px 26px; }
+.grid { display: grid; gap: 14px; }
+
+/* --- panel (dark glass + beveled metal header) -------------------------- */
+.panel {
+  position: relative; background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 22px 60px -28px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(3px);
+  display: flex; flex-direction: column; min-height: 0;
+  animation: rise 0.35s ease both;
+}
+/* hot corner accents — crimson top-left, gold bottom-right (the two sources) */
+.panel::before, .panel::after, .panel > .corner-tr, .panel > .corner-br {
+  content: ""; position: absolute; width: 11px; height: 11px; pointer-events: none; border-style: solid; border-width: 0;
+}
+.panel::before { top: -1px; left: -1px; border-top: 1px solid var(--crimson); border-left: 1px solid var(--crimson); box-shadow: -2px -2px 8px -2px rgba(255,47,94,0.5); }
+.panel > .corner-br { bottom: -1px; right: -1px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); box-shadow: 2px 2px 8px -2px rgba(255,178,46,0.5); }
+.panel::after { top: -1px; right: -1px; border-top: 1px solid var(--gold-deep); border-right: 1px solid var(--gold-deep); }
+.panel > .corner-tr { bottom: -1px; left: -1px; border-bottom: 1px solid var(--crimson-deep); border-left: 1px solid var(--crimson-deep); }
+
+.panel-head {
+  display: flex; align-items: center; gap: 8px; padding: 6px 11px;
+  background: var(--metal-gold);
+  border-bottom: 1px solid var(--bevel-lo);
+  box-shadow: inset 0 1px 0 var(--bevel-hi), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.22em;
+  color: var(--gold-hi); text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7); flex-shrink: 0;
+}
+.panel-head .tag {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em;
+  color: var(--bg-0); background: var(--gold); padding: 1px 5px; border-radius: 1px;
+  text-shadow: none; font-weight: 400;
+}
+.panel-head .spacer { flex: 1; }
+.panel-head .meta { font-family: var(--font-mono); color: var(--txt-dim); font-size: 10px; letter-spacing: 0.08em; font-weight: 400; text-shadow: none; }
+.panel-body { padding: 12px; overflow: auto; min-height: 0; flex: 1; }
+.panel-body.tight { padding: 0; }
+
+/* --- buttons / inputs (beveled metal) ---------------------------------- */
+.btn {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold-hi); background: var(--metal);
+  border: 1px solid rgba(0, 0, 0, 0.5); border-top-color: var(--bevel-hi);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 7px -2px rgba(0, 0, 0, 0.7);
+  padding: 6px 13px; cursor: pointer; transition: all 0.15s;
+}
+.btn:hover { color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), var(--glow-gold); }
+.btn.crim { color: var(--crimson-hi); }
+.btn.crim:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), var(--glow-crim); }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+.btn.sm { padding: 4px 9px; font-size: 10px; }
+
+.field { display: flex; flex-direction: column; gap: 3px; }
+.field label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--txt-dim); }
+input.nf, select.nf {
+  font-family: var(--font-mono); font-size: 12px; color: var(--gold-hi);
+  background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6); padding: 5px 8px; outline: none;
+}
+input.nf:focus, select.nf:focus { border-color: var(--crimson); box-shadow: inset 0 1px 3px rgba(0,0,0,0.6), var(--glow-crim); }
+input[type="range"].nf { accent-color: var(--crimson); box-shadow: none; padding: 0; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 5px; font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px;
+  border: 1px solid rgba(255, 178, 46, 0.25); color: var(--txt); background: rgba(0, 0, 0, 0.35);
+}
+.chip.ok { color: var(--gold-hi); border-color: rgba(255, 178, 46, 0.5); }
+.chip.plan { color: var(--txt-dim); border-color: rgba(255,255,255,0.08); }
+
+/* --- key/value ---------------------------------------------------------- */
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; font-size: 12px; }
+.kv .k { color: var(--txt-dim); text-transform: uppercase; font-size: 10px; letter-spacing: 0.12em; }
+.kv .v { color: var(--txt-bright); text-align: right; }
+.kv .v.hl { color: var(--gold-hi); text-shadow: var(--glow-gold); }
+
+/* --- table -------------------------------------------------------------- */
+table.nf { width: 100%; border-collapse: collapse; font-size: 11px; }
+table.nf th {
+  text-align: left; color: var(--gold); text-transform: uppercase; font-size: 9px; letter-spacing: 0.12em;
+  padding: 5px 8px; border-bottom: 1px solid rgba(255, 178, 46, 0.3);
+  position: sticky; top: 0; background: var(--panel-solid);
+}
+table.nf td { padding: 3px 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); color: var(--txt); }
+table.nf tr:hover td { background: rgba(255, 47, 94, 0.07); color: var(--txt-bright); }
+
+/* --- status bar (metal) ------------------------------------------------- */
+.statusbar {
+  display: flex; align-items: center; background: var(--metal);
+  border-top: 1px solid var(--bevel-lo); box-shadow: inset 0 1px 0 var(--bevel-hi);
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--txt-dim);
+  position: relative; z-index: 5;
+}
+.status-cell { padding: 0 14px; height: 100%; display: flex; align-items: center; gap: 7px; border-right: 1px solid rgba(0, 0, 0, 0.4); }
+.status-cell .v { color: var(--gold-hi); }
+.status-cell.crim .v { color: var(--crimson-hi); }
+.status-cell.grow { flex: 1; justify-content: flex-end; border-right: none; color: var(--txt-dim); }
+
+/* --- boot (cinematic) --------------------------------------------------- */
+.boot {
+  position: fixed; inset: 0; z-index: 9999; background: #000;
+  display: grid; grid-template-rows: 1fr auto; overflow: hidden;
+}
+.boot canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.boot-stage { position: relative; display: flex; align-items: center; justify-content: center; }
+.boot-title { position: relative; text-align: center; animation: flicker 3.5s infinite; }
+.boot-title .mark {
+  font-family: var(--font-display); font-weight: 300; font-size: clamp(34px, 7vw, 84px);
+  letter-spacing: 0.5em; text-indent: 0.5em; text-transform: uppercase; color: var(--hot);
+  text-shadow: 0 0 30px rgba(255, 47, 94, 0.6), 0 0 70px rgba(255, 178, 46, 0.3);
+}
+.boot-title .tag { margin-top: 8px; font-size: 11px; letter-spacing: 0.6em; color: var(--gold); text-transform: uppercase; }
+.boot-foot { position: relative; z-index: 2; padding: 22px 30px; display: flex; flex-direction: column; gap: 10px; }
+.boot-bar { height: 2px; background: rgba(255, 255, 255, 0.08); position: relative; overflow: hidden; }
+.boot-bar i { position: absolute; inset: 0; width: var(--p, 0%); background: linear-gradient(90deg, var(--crimson), var(--gold)); box-shadow: var(--glow-gold); transition: width 0.2s; }
+.boot-log { font-size: 11px; color: var(--txt-dim); height: 78px; overflow: hidden; }
+.boot-log .ok { color: var(--gold-hi); }
+.boot-log .ln { animation: rise 0.2s both; }
+
+/* --- reticle / decor ---------------------------------------------------- */
+.reticle { position: relative; display: flex; align-items: center; justify-content: center; }
+.reticle::before, .reticle::after { content: ""; position: absolute; width: 15px; height: 15px; border: 1px solid var(--crimson); opacity: 0.75; }
+.reticle::before { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.reticle::after { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+.spinner { width: 26px; height: 26px; border: 2px solid rgba(255, 47, 94, 0.15); border-top-color: var(--crimson); border-radius: 50%; animation: spin 0.9s linear infinite; }
+
+/* --- scene decor (engineered margin annotations) ------------------------ */
+.decor { position: absolute; inset: 0; pointer-events: none; z-index: 3; overflow: hidden; }
+.decor .vstring {
+  position: absolute; top: 50%; right: 6px; transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl; font-size: 9px; letter-spacing: 0.4em; color: var(--gold-deep);
+  text-transform: uppercase; opacity: 0.6;
+}
+.decor .vstring.left { right: auto; left: 6px; transform: translateY(-50%); color: var(--crimson-deep); }
+.decor .coord { position: absolute; font-size: 8.5px; letter-spacing: 0.1em; color: var(--txt-dim); opacity: 0.7; }
+.decor .ruler { position: absolute; left: 8px; top: 70px; bottom: 70px; width: 12px; display: flex; flex-direction: column; justify-content: space-between; }
+.decor .ruler i { height: 1px; background: var(--line); width: 6px; }
+.decor .ruler i:nth-child(5n) { width: 12px; background: rgba(255,47,94,0.4); }
+.decor .tc { position: absolute; left: 24px; font-size: 8.5px; color: var(--gold-deep); letter-spacing: 0.1em; }
+
+/* --- hero --------------------------------------------------------------- */
+.hero { position: relative; overflow: hidden; }
+.hero canvas { display: block; width: 100%; }
+.hero-overlay { position: absolute; inset: 0; pointer-events: none; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; }
+
+/* layout helpers */
+.row { display: flex; gap: 10px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 12px; }
+.wrap { flex-wrap: wrap; }
+.center { display: flex; align-items: center; justify-content: center; }
+.placeholder-note { color: var(--txt-dim); font-size: 12px; line-height: 1.7; }
+.sweep { position: relative; overflow: hidden; }
+.sweep::after { content: ""; position: absolute; top: 0; bottom: 0; width: 28%; background: linear-gradient(90deg, transparent, rgba(255, 178, 46, 0.14), transparent); animation: sweep 3.6s linear infinite; }

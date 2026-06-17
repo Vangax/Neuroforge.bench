@@ -1,0 +1,25 @@
+# Full stack: backend (FastAPI+MNE) + frontend (nginx serving the built SPA,
+# proxying /api to the backend). Data persists in the nf_data volume.
+#   docker compose up --build   ->  http://localhost:8080
+services:
+  backend:
+    build: ./backend
+    environment:
+      - NEUROFORGE_DATA=/data
+      # enable auth in production:
+      # - NEUROFORGE_AUTH=1
+      # - NEUROFORGE_TOKENS=replace-me:admin,analyst-key:analyst,viewer-key:viewer
+    volumes:
+      - nf_data:/data
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  nf_data:
